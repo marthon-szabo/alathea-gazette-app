@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AlatheaGazette.Models;
 using AlatheaGazette.Models.Repositories;
+using AlatheaGazette.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,7 @@ namespace AlatheaGazette
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AGConnection")));
             services.AddControllersWithViews();
             services.AddScoped<IUserRepository, SqlUserRepository>();
+            services.AddSingleton<IUserFactory, UserFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +58,9 @@ namespace AlatheaGazette
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    "user",
+                    "{controller=User}");
             });
         }
     }

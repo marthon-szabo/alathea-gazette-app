@@ -2,7 +2,7 @@
 
 namespace AlatheaGazette.Models.Repositories
 {
-    interface IUserRepository
+    public interface IUserRepository
     {
         public void CreateUser(UserModel newUser);
         public IQueryable<UserModel> GetUsers();
