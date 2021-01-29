@@ -24,6 +24,11 @@ namespace AlatheaGazette.Models.Repositories
             _context.SaveChanges();
         }
 
+        public UserModel GetUserById(int id)
+        {
+            return _context.Users.Find(id);
+        }
+
         public IQueryable<UserModel> GetUsers()
         {
             return _context.Users;
