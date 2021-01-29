@@ -45,4 +45,32 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
+
+<!--TODO: write it into seperate js file-->
+<script>
+    const buttons = [...document.getElementsByTagName('button')];
+    buttons.forEach(button => {
+        if (button.type === 'submit') {
+            button.addEventListener('click', (evnt) => switchToLoadingBtn.call(evnt))
+        }
+    })
+
+    function switchToLoadingBtn() {
+        let btn = this.target;
+        let spinnerSpan = document.createElement('span');
+        let textSpan = document.createElement('span');
+
+        spinnerSpan.classList.add("spinner-border", "spinner-border-sm");
+        spinnerSpan.role = 'status';
+        spinnerSpan.ariaHidden = true;
+
+        textSpan.innerText = ' Loading...'
+
+        btn.disabled = true;
+        btn.innerText = ''
+        btn.appendChild(spinnerSpan);
+        btn.appendChild(textSpan);
+        btn.parentElement.submit();
+}
+</script>
 </html>
