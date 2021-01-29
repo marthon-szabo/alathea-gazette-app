@@ -16,6 +16,9 @@ namespace AlatheaGazette.Models
         public string Email { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string HashedPassword { get; set; }
+
+        [Required]
+        public string PasswordSalt { get; set; }
     }
 }
