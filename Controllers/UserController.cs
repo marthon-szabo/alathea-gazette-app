@@ -1,7 +1,9 @@
 using AlatheaGazette.Models;
 using AlatheaGazette.Models.Repositories;
 using AlatheaGazette.Services;
+using AlatheaGazette.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace AlatheaGazette.Controllers
 {
@@ -21,13 +23,28 @@ namespace AlatheaGazette.Controllers
         {
             return View();
         }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
         
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Register(LoginVM loginVM)
         {
-            UserModel newUserModel = _userFactory.createInstance(1, email, password);
-            _userRepo.CreateUser(newUserModel);
-            
+            // check if the user already exists
+            UserModel registered = _userRepo.GetUserById(loginVM.UserId);
+
+            if (registered != null && registered.Email == loginVM.UserEmail)
+            {
+                ViewData["Error"] = "This email address has been registered, already!";
+
+                return View();
+            }
+
+            registered = _userFactory.createInstance(loginVM.UserEmail, loginVM.UserPassword);
+            _userRepo.CreateUser(registered);
+
             return View();
         }
     }
