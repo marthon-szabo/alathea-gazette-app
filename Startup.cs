@@ -31,6 +31,7 @@ namespace AlatheaGazette
             services.AddControllersWithViews();
             services.AddScoped<IUserRepository, SqlUserRepository>();
             services.AddSingleton<IUserFactory, UserFactory>();
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
