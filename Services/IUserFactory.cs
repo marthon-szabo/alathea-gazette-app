@@ -4,6 +4,6 @@ namespace AlatheaGazette.Services
 {
     public interface IUserFactory
     {
-        public UserModel createInstance(int id, string email, string password);
+        public UserModel createInstance(string email, string password);
     }
 }
