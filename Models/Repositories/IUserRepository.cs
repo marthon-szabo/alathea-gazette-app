@@ -9,5 +9,6 @@ namespace AlatheaGazette.Models.Repositories
         public void UpdateUser(UserModel update);
         public void DeleteUserById(int id);
         public UserModel GetUserById(int id);
+        public UserModel GetUserByEmail(string emailAddress);
     }
 }

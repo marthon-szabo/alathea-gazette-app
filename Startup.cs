@@ -27,11 +27,19 @@ namespace AlatheaGazette
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromSeconds(20);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("AGConnection")));
             services.AddControllersWithViews();
             services.AddScoped<IUserRepository, SqlUserRepository>();
-            services.AddSingleton<IUserFactory, UserFactory>();
-            services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IUserFactory, UserFactory>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +61,8 @@ namespace AlatheaGazette
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

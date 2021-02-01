@@ -24,6 +24,11 @@ namespace AlatheaGazette.Models.Repositories
             _context.SaveChanges();
         }
 
+        public UserModel GetUserByEmail(string emailAddress)
+        {
+            return _context.Users.Find(emailAddress);
+        }
+
         public UserModel GetUserById(int id)
         {
             return _context.Users.Find(id);

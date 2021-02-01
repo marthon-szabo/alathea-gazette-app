@@ -2,8 +2,11 @@ using AlatheaGazette.Models;
 using AlatheaGazette.Models.Repositories;
 using AlatheaGazette.Services;
 using AlatheaGazette.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Extensions.Caching.Memory;
+using System.Text;
+using System.Web;
 
 namespace AlatheaGazette.Controllers
 {
@@ -11,11 +14,16 @@ namespace AlatheaGazette.Controllers
     {
         private IUserRepository _userRepo;
         private IUserFactory _userFactory;
+        private IPasswordHasher _passwordHasher;
+        private IMemoryCache _memoryCache;
 
-        public UserController(IUserRepository userRepo, IUserFactory userFactory)
+        public UserController(IUserRepository userRepo, IUserFactory userFactory, 
+            IPasswordHasher passwordHasher, IMemoryCache memoryCache)
         {
             _userRepo = userRepo;
             _userFactory = userFactory;
+            _passwordHasher = passwordHasher;
+            _memoryCache = memoryCache;
         }
         
         // GET
@@ -23,6 +31,21 @@ namespace AlatheaGazette.Controllers
         {
             return View();
         }
+        
+        [HttpPost]
+        public IActionResult Login(LoginVM loginVM)
+        {
+            if (_passwordHasher.ValidateMe(loginVM.UserEmail, loginVM.UserPassword))
+            {
+                string sessionId =  BCrypt.Net.BCrypt.GenerateSalt();
+                HttpContext.Session.SetString("id", sessionId);
+
+                ViewData["sessionId"] = HttpContext.Session.GetString("id");
+            }
+            return View();
+        }
+
+        
 
         public IActionResult Register()
         {
@@ -45,7 +68,7 @@ namespace AlatheaGazette.Controllers
             registered = _userFactory.createInstance(loginVM.UserEmail, loginVM.UserPassword);
             _userRepo.CreateUser(registered);
 
-            return View();
+            return RedirectToAction("Login");
         }
     }
 }

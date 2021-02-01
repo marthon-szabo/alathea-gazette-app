@@ -15,5 +15,15 @@ namespace AlatheaGazette.Models
         }
 
         public DbSet<UserModel> Users { get; set; }
+        public DbSet<SessionModel> UserSessions { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SessionModel>()
+                .HasOne(sM => sM.User)
+                .WithOne()
+                .HasForeignKey<SessionModel>(sM => sM.UserId);
+                
+        }
     }
 }

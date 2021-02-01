@@ -8,6 +8,8 @@ namespace AlatheaGazette.Services
     public interface IPasswordHasher
     {
         public string[] HashMe(string plainText);
+
+        public bool ValidateMe(string plainText, string email);
         
     }
 }

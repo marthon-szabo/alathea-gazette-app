@@ -25,3 +25,7 @@
 1. When the web-client connects to a website ***the server sends an ssl sertificate*** that authenticates
 the identity of the website.
 2. ***The client checks it and if it is trustworthy it sends back an acknowledgement.*** Then the SSL session can be proceed.
+
+## Memory Caching
+- The data for the request will not be loaded from the database after the second time. Instead it will be loaded from the server's app memory cahe.
+It improves a loading speed of the page.

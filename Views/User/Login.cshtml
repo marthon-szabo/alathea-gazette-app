@@ -1,25 +1,43 @@
-@model AlatheaGazette.ViewModels.LoginVM
+﻿@model AlatheaGazette.ViewModels.LoginVM
+@using Microsoft.AspNetCore.Http
 
-<form class="px-4 py-3" method="post" action="/user/login">
-    <div class="mb-3">
-        <label for="exampleDropdownFormEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" name="email" id="exampleDropdownFormEmail1" placeholder="email@example.com">
-    </div>
-    <div class="mb-3">
-        <label for="exampleDropdownFormPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" name="password" id="exampleDropdownFormPassword1" placeholder="Password">
-    </div>
-    <div class="mb-3">
-        <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="dropdownCheck">
-            <label class="form-check-label" for="dropdownCheck">
-                Remember me
-            </label>
-        </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
-</form>
-<div class="dropdown-divider"></div>
-<a class="dropdown-item" href="#">New around here? Sign up</a>
-<a class="dropdown-item" href="#">Forgot password?</a>
+@{
+    ViewData["Title"] = "Login";
+}
 
+<h1>Login</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserEmail" class="control-label"></label>
+                <input asp-for="UserEmail" class="form-control" />
+                <span asp-validation-for="UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserPassword" class="control-label"></label>
+                <input asp-for="UserPassword" class="form-control" />
+                <span asp-validation-for="UserPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
